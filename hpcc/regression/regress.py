@@ -376,7 +376,7 @@ class Regression:
                 wuid =  queryWuid(query.getJobname(),  query.getTaskId())
                 self.retryCount -= 1;
                 if self.retryCount> 0:
-                    self.timeouts[threadId] =  query.getTimeout() #self.timeout
+                    self.timeouts[threadId] = query.getTimeout()
                     self.loggermutex.acquire()
                     logger.warn("%3d. %s has not started yet. Reset due to timeout after %d sec (%d retry attempt(s) remain)." % (cnt, query.ecl, self.timeouts[threadId],  self.retryCount),  extra={'taskId':cnt})
                     logger.debug("%3d. Task parameters: thread id: %d, ecl:'%s',state:'%s', retry count:%d." % (cnt, threadId,  query.ecl,   wuid['state'],  self.retryCount),  extra={'taskId':cnt})

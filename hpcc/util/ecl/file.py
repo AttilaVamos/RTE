@@ -480,14 +480,13 @@ class ECLFile:
                 if len(timeoutParts) == 2:
                     if (timeoutParts[1] == '-1') or isPositiveIntNum(timeoutParts[1]) :
                         timeout = int(timeoutParts[1])
-                        #self.timeout = timeout
                 break
         logger.debug("%3d. Timeout is :%d sec",  self.taskId,  timeout)
         return timeout
 
     def getTimeout(self):
         return self.timeout
-    
+
     def setTimeout(self,  timeout):
         self.timeout = timeout
 
