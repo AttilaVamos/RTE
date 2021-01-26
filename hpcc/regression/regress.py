@@ -342,7 +342,7 @@ class Regression:
                 if self.exitmutexes[threadId].locked():
                     query = suiteItems[self.taskParam[threadId]['taskId']]
                     if exc != None:
-                        logger.warning("Thread :%d, is locked for %s. Terminate it." % (threadId,  query.ecl))
+                        logger.warning("Thread :%d is locked for %s. Terminate it." % (threadId,  query.ecl))
                     self.retryCount = int(self.config.maxAttemptCount)
                     self.CheckTimeout(self.taskParam[threadId]['taskId']+1, threadId,  query)
 
