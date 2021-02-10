@@ -25,6 +25,7 @@ import subprocess
 import sys
 import traceback
 import linecache
+import inspect
 
 logger = logging.getLogger('RegressionTestEngine')
 
@@ -431,12 +432,22 @@ def clearOSCache(testId = -1):
     pass
 
 
-def PrintException(msg = ''):
+def printException(msg = '',  debug = False):
     exc_type, exc_obj, tb = sys.exc_info()
     f = tb.tb_frame
     lineno = tb.tb_lineno
     filename = f.f_code.co_filename
     linecache.checkcache(filename)
     line = linecache.getline(filename, lineno, f.f_globals)
-    print ('EXCEPTION IN (%s, LINE %s CODE:"%s"): %s' % ( filename, lineno, line.strip(), msg))
-    print(traceback.format_exc())
+    if debug:
+        logger.debug('EXCEPTION IN (%s, LINE %s CODE:"%s"): %s' % ( filename, lineno, line.strip(), msg))
+        logger.debug(traceback.format_exc())
+    else:
+        print ('EXCEPTION IN (%s, LINE %s CODE:"%s"): %s' % ( filename, lineno, line.strip(), msg))
+        print(traceback.format_exc())
+
+def getCodeInfo(currentFrame= None):
+    retVal = "'' (No frame info)"
+    if currentFrame != None:
+        retVal = "%s:%s" % (os.path.basename(os.path.abspath(inspect.getfile(currentFrame))),  currentFrame.f_lineno)
+    return(retVal)
