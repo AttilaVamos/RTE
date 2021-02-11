@@ -25,7 +25,7 @@ import atexit
 import traceback
 import glob
 import inspect
-
+import signal
 import argparse
 
 from hpcc.regression.regress import Regression
@@ -469,6 +469,14 @@ class RegressMain:
                 self.regress = None
         exit()
 
+
+def signalHandler(signum, frame):
+    logging.critical("Signal %d received" %(signum))
+    raise KeyboardInterrupt
+    
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, signalHandler)
+    signal.signal(signal.SIGTERM, signalHandler)
+
     regressMain = RegressMain()
     regressMain.main()
