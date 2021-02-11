@@ -61,6 +61,7 @@ class Regression:
                 # Emultae timeout to force abort
                 self.timeouts[threadId] = 0
                 self.retryCount = 0
+                self.args.engine = None # To prevent Stack Trace generation
                 self.CheckTimeout(self.taskParam[threadId]['taskId']+1, threadId,  query)
 
         self.StopTimeoutThread()
