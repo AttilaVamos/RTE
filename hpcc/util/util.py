@@ -198,42 +198,47 @@ def createStackTrace(wuid, proc, taskId, logDir = ""):
     logger.debug("%3d. Create Stack Trace result:'%s'", taskId, result)
 
 def abortWorkunit(wuid, taskId = -1, engine = None):
+    state=False
     wuid = wuid.strip()
-    logger.debug("%3d. abortWorkunit(wuid:'%s', engine: '%s')", taskId, wuid, str(engine))
-    logger.debug("%3d. config: generateStackTrace: '%s'", taskId, str(gConfig.generateStackTrace))
-    if (gConfig.generateStackTrace and (engine !=  None)):
-        if isSudoer():
-            if engine.startswith('thor'):
-                hpccProcesses = queryEngineProcess("thormaster", taskId)
-                hpccProcesses += queryEngineProcess("thorslave", taskId)
-            elif engine.startswith('hthor'):
-                hpccProcesses = queryEngineProcess("eclagent", taskId)
-                hpccProcesses += queryEngineProcess("hthor", taskId)
-            elif engine.startswith('roxie'):
-                hpccProcesses = queryEngineProcess("roxie", taskId)
-                
-            if len(hpccProcesses) > 0:
-                for p in hpccProcesses:
-                    createStackTrace(wuid, p, taskId)
+    if wuid.upper().startswith('W'):
+        logger.debug("%3d. abortWorkunit(wuid:'%s', engine: '%s')", taskId, wuid, str(engine))
+        logger.debug("%3d. config: generateStackTrace: '%s'", taskId, str(gConfig.generateStackTrace))
+        if (gConfig.generateStackTrace and (engine !=  None)):
+            if isSudoer():
+                if engine.startswith('thor'):
+                    hpccProcesses = queryEngineProcess("thormaster", taskId)
+                    hpccProcesses += queryEngineProcess("thorslave", taskId)
+                elif engine.startswith('hthor'):
+                    hpccProcesses = queryEngineProcess("eclagent", taskId)
+                    hpccProcesses += queryEngineProcess("hthor", taskId)
+                elif engine.startswith('roxie'):
+                    hpccProcesses = queryEngineProcess("roxie", taskId)
+                    
+                if len(hpccProcesses) > 0:
+                    for p in hpccProcesses:
+                        createStackTrace(wuid, p, taskId)
+                else:
+                    logger.error("%3d. abortWorkunit(wuid:'%s', engine:'%s') related process to generate stack trace not found.", taskId, wuid, str(engine))
+                pass
             else:
-                logger.error("%3d. abortWorkunit(wuid:'%s', engine:'%s') related process to generate stack trace not found.", taskId, wuid, str(engine))
-            pass
-        else:
-            err = Error("7100")
-            logger.error("%s. clearOSCache error:%s" % (taskId,  err))
-            logger.error(traceback.format_exc())
-            raise Error(err)
-            pass
+                err = Error("7100")
+                logger.error("%s. clearOSCache error:%s" % (taskId,  err))
+                logger.error(traceback.format_exc())
+                raise Error(err)
+                pass
 
-    shell = Shell()
-    cmd = 'ecl'
-    defaults=[]
-    args = []
-    args.append('abort')
-    args.append('-wu=' + wuid)
-    addCommonEclArgs(args)
+        shell = Shell()
+        cmd = 'ecl'
+        defaults=[]
+        args = []
+        args.append('abort')
+        args.append('-wu=' + wuid)
+        addCommonEclArgs(args)
 
-    state=shell.command(cmd, *defaults)(*args)
+        state=shell.command(cmd, *defaults)(*args)
+    else:
+        logger.error("%3d. abortWorkunit(wuid:'%s', engine:'%s') invalid WUID.", taskId, wuid, str(engine))
+        
     return state
 
 def createZAP(wuid, taskId,  reason=''):
