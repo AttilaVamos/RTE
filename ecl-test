@@ -30,7 +30,7 @@ import argparse
 
 from hpcc.regression.regress import Regression
 from hpcc.util.util import checkClusters, checkHpccStatus
-from hpcc.util.util import setConfig, checkPqParam, getVersionNumbers, checkXParam, convertPath
+from hpcc.util.util import setConfig, checkPqParam, getVersionNumbers, checkXParam, convertPath, isPositiveIntNum
 from hpcc.util.util import getEclRunArgs, isSudoer, getCodeInfo
 from hpcc.util.expandcheck import ExpandCheck
 from hpcc.common.error import Error
@@ -310,7 +310,17 @@ class RegressMain:
         # Process config parameter
         self.config = Config(self.args.config).configObj
         if ('server' in self.args) and (self.args.server != None):
-            self.config.set('espIp',  self.args.server)
+            if ':' in self.args.server:
+                ip,  port = self.args.server.split(':')
+                if isPositiveIntNum(port):
+                    self.config.set('espSocket',  port)
+                else:
+                    err = Error("6008")
+                    logging.error("%s. %s : '%s'."  % (-1, err,  port))
+                    exit(err.getErrorCode())
+            else:
+                ip = self.args.server
+            self.config.set('espIp',  ip)
             pass
 
         if self.args.username != None:
