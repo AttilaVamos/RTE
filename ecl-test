@@ -213,8 +213,8 @@ class RegressMain:
                                 type=checkPqParam,  default = 0,   metavar="threadNumber")
         commonParser.add_argument('--noversion', help="Avoid version expansion of queries. Execute them as a standard test.",
                                 action = 'store_true')
-        commonParser.add_argument('--server', help="ESP server address. Default value (espIp) defined in ecl-test.json config file.",
-                                nargs='?', default=None,  metavar="networkAddress")
+        commonParser.add_argument('--server', help="ESP server and optionally port address. Default value (espIp, espSocket) defined in ecl-test.json config file.",
+                                nargs='?', default=None,  metavar="networkAddress[:port]")
         commonParser.add_argument('--username',  '-u', help="Specify a username. If this appears in command line and the STDIO is a TTY like device then, the test engine displays a prompt to get user's password. Pipe like 'echo \"<password>\" | ./elc-test run -u <username>  ...' can be used to provide user's password as well. The username and password overrides those stored in ecl-test.json config file.",
                                 nargs='?', default=None,  metavar="username")
 
@@ -311,16 +311,16 @@ class RegressMain:
         self.config = Config(self.args.config).configObj
         if ('server' in self.args) and (self.args.server != None):
             if ':' in self.args.server:
-                ip,  port = self.args.server.split(':')
+                ip, port = self.args.server.split(':')
                 if isPositiveIntNum(port):
-                    self.config.set('espSocket',  port)
+                    self.config.set('espSocket', port)
                 else:
                     err = Error("6008")
-                    logging.error("%s. %s : '%s'."  % (-1, err,  port))
+                    logging.error("%s. %s : '%s'." % (-1, err, port))
                     exit(err.getErrorCode())
             else:
                 ip = self.args.server
-            self.config.set('espIp',  ip)
+            self.config.set('espIp', ip)
             pass
 
         if self.args.username != None:
