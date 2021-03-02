@@ -35,18 +35,12 @@
         },
         "timeout":"720",
         "maxAttemptCount":"3",
-        "defaultSetupClusters": [
-            "mythor",
-            "myroxie"
-        ],
-        "defaultSetupEngines": [
+        "defaultSetupTargets": [
+            "hthor",
             "thor",
             "roxie"
         ],
-        "defaultTargetClusters": [
-            "all"
-        ],
-        "defaultTargetEngines": [
+        "defaultTargets": [
             "all"
         ],
         "Params":[
