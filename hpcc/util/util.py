@@ -234,6 +234,7 @@ def abortWorkunit(wuid, taskId = -1, engine = None):
         args = []
         args.append('abort')
         args.append('-wu=' + wuid)
+        args.append('--wait-read=30')  # Timeout while reading from socket (in seconds)
         addCommonEclArgs(args)
 
         state=shell.command(cmd, *defaults)(*args)
