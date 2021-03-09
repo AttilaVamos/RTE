@@ -51,8 +51,8 @@ class ECLcmd(Shell):
         if self.config.useSsl.lower() == 'true':
             args.append('--ssl')
         
-#        retryCount = int(kwargs.pop('retryCount',  1))
-#        args.append('--wait='+str(retryCount * eclfile.getTimeout() * 1000))  # ms
+        retryCount = int(kwargs.pop('retryCount',  1))
+        args.append('--wait='+str(2 * retryCount * eclfile.getTimeout() * 1000))  # ms
 
         server = kwargs.pop('server', False)
         if server:
