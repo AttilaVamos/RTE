@@ -127,6 +127,7 @@ def queryWuid(jobname,  taskId):
     args.append('status')
     args.append('-v')
     args.append('-n=' + jobname)
+    args.append('--wait-read=30')  # Timeout while reading from socket (in seconds)
     addCommonEclArgs(args)
 
     res, stderr = shell.command(cmd, *defaults)(*args)
