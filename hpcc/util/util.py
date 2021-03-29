@@ -127,7 +127,7 @@ def queryWuid(jobname,  taskId):
     args.append('status')
     args.append('-v')
     args.append('-n=' + jobname)
-    args.append('--wait-read=30')  # Timeout while reading from socket (in seconds)
+    args.append('--wait-read='+ gConfig.wuStatusTimeout )  # Timeout while reading from socket (in seconds)
     addCommonEclArgs(args)
 
     res, stderr = shell.command(cmd, *defaults)(*args)
@@ -250,7 +250,7 @@ def abortWorkunit(wuid, taskId = -1, engine = None):
         args = []
         args.append('abort')
         args.append('-wu=' + wuid)
-        args.append('--wait-read=30')  # Timeout while reading from socket (in seconds)
+        args.append('--wait-read=' + gConfig.wuAbortTimeout )  # Timeout while reading from socket (in seconds)
         addCommonEclArgs(args)
 
         state=shell.command(cmd, *defaults)(*args)
