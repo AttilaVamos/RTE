@@ -244,12 +244,13 @@ class ECLcmd(Shell):
                     logger.debug("%3d. State is fail (resultLineIndex:%d, resultLinesLen:%d, resultLines:'%s' )", eclfile.getTaskId(), resultLineIndex, resultLinesLen, resultLines)
                     data = '\n'.join(resultLines[resultLineIndex:])+ "\n"
                     eclfile.addResults(data, wuid)
-                    eclfile.diff = ("%3d. Test: %s\n") % (eclfile.taskId, eclfile.getBaseEclRealName())
-                    eclfile.diff += '\tNo output\n'
                     logger.debug("%3d. State is fail (resultLineIndex:%d, data:'%s' )", eclfile.getTaskId(), resultLineIndex,  data)
-                    test = False
                     if ( resultLinesLen > 0 ) and ( resultLineIndex < resultLinesLen ) and ( not resultLines[resultLineIndex].startswith('Error (') ) and resultLines[resultLineIndex].startswith('<') and True :
                         test = eclfile.testResults()
+                    else:
+                        test = False
+                        eclfile.diff = ("%3d. Test: %s\n") % (eclfile.taskId, eclfile.getBaseEclRealName())
+                        eclfile.diff += '\tNo output\n'
                 else:
                     test = eclfile.testResults()
             report.addResult(eclfile)
