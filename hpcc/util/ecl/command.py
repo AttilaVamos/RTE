@@ -236,16 +236,19 @@ class ECLcmd(Shell):
                 elif (res['state'] == 'failed'):
                     logger.debug("%3d. in state == failed 'wuid':'%s', 'state':'%s', data':'%s', ", eclfile.getTaskId(), res['wuid'], res['state'], data)
                     resultLines = data.strip().split('\n')
+                    resultLinesLen = len(resultLines)
                     resultLineIndex = 0;
                     #                                                 It has some output what should compare
-                    while resultLineIndex < len(resultLines) and not resultLines[resultLineIndex].startswith('<'):
+                    while resultLineIndex <resultLinesLen and not resultLines[resultLineIndex].startswith('<'):
                         resultLineIndex += 1
-                    logger.debug("%3d. State is fail (resultLineIndex:%d, resultLines:'%s' )", eclfile.getTaskId(), resultLineIndex,  resultLines)
+                    logger.debug("%3d. State is fail (resultLineIndex:%d, resultLinesLen:%d, resultLines:'%s' )", eclfile.getTaskId(), resultLineIndex, resultLinesLen, resultLines)
                     data = '\n'.join(resultLines[resultLineIndex:])+ "\n"
                     eclfile.addResults(data, wuid)
+                    eclfile.diff = ("%3d. Test: %s\n") % (eclfile.taskId, eclfile.getBaseEclRealName())
+                    eclfile.diff += '\tNo output\n'
                     logger.debug("%3d. State is fail (resultLineIndex:%d, data:'%s' )", eclfile.getTaskId(), resultLineIndex,  data)
                     test = False
-                    if not resultLines[resultLineIndex].startswith('Error ('):
+                    if ( resultLinesLen > 0 ) and ( resultLineIndex < resultLinesLen ) and ( not resultLines[resultLineIndex].startswith('Error (') ) and resultLines[resultLineIndex].startswith('<') and True :
                         test = eclfile.testResults()
                 else:
                     test = eclfile.testResults()
