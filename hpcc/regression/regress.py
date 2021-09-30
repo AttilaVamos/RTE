@@ -123,6 +123,7 @@ class Regression:
         numOfThreads=1
         if 'pq' in args:
             if args.pq == 0:
+                args.pq = 1
                 numOfThreads = 1;
             else:
                 numOfThreads = args.pq
