@@ -146,8 +146,8 @@ class Regression:
 
         self.maxthreads = numOfThreads
         self.maxtasks = 0
-        #self.exitmutexes = [_thread.allocate_lock() for i in range(self.maxthreads)]
-       # self.timeouts = [(-1) for i in range(self.maxthreads)]
+        self.exitmutexes = [_thread.allocate_lock() for i in range(self.maxthreads)]
+        self.timeouts = [(-1) for i in range(self.maxthreads)]
         self.timeoutHandlerEnabled = False;
         self.timeoutThread = threading.Timer(1.0,  self.timeoutHandler)
 
