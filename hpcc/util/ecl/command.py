@@ -165,8 +165,8 @@ class ECLcmd(Shell):
                 logger.debug("%3d. error:'%s'", eclfile.getTaskId(), stderr )
                 data += '\n'.join(line for line in stderr.split('\n') if line and (' Warning ' not in line) and (' Info ' not in line) and ('0 error(s)' not in line)  ) 
                 
-            if len(data) > 0:
-                data += '\n'
+#            if len(data) > 0:
+            data += '\n'
 
         except Error as err:
             data = str(err)
