@@ -134,6 +134,7 @@ class ECLcmd(Shell):
                 if "aborted" in i:
                     state = "aborted"
                 if cnt > 4:
+                    xml =  ET.fromstring("<Empty>-*-* No content *-*-</Empty>")
                     if (i.startswith('<Warning>') or i.startswith('<Exception>')) and ('Filename' in i ):
                         # Remove absolute path from filename to 
                         # enable to compare it with same part of keyfile
