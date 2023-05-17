@@ -19,7 +19,7 @@
 
 import difflib
 import logging
-import os
+import os,  errno
 import traceback
 import re
 import xml.etree.ElementTree as ET
@@ -302,8 +302,15 @@ class ECLFile:
         self.wuid = wuid
         if not os.path.isdir(self.dir_r):
             os.mkdir(self.dir_r)
-        if os.path.isfile(filename):
+        try:
             os.unlink(filename)
+        except OSError as e:
+            if e.errno != errno.ENOENT:
+                printException("addResults scrip:" + repr(e))
+                logger.erro("%3d. To remove '%s' file failed with '%s'" , self.taskId, filename, repr(e))
+            else:
+                logger.debug("%3d. To remove '%s' file failed with '%s'" , self.taskId, filename, repr(e))
+            
         FILE = open(filename, "w")
         FILE.write(results)
         FILE.close()
@@ -495,8 +502,8 @@ class ECLFile:
     def testResults(self):
         try:
             expectedKeyPath = self.getExpected()
-            logger.debug("%3d. EXP: " + expectedKeyPath,  self.taskId )
-            logger.debug("%3d. REC: " + self.getResults(),  self.taskId )
+            logger.debug("%3d. EXP: '" + expectedKeyPath +"'",  self.taskId )
+            logger.debug("%3d. REC: '" + self.getResults() + "'",  self.taskId )
             if not os.path.isfile(expectedKeyPath):
                 self.diff += ("%3d. Test: %s\n") % (self.taskId,  self.getBaseEclRealName())
                 self.diff += "KEY FILE NOT FOUND. " + expectedKeyPath
