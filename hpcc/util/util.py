@@ -318,20 +318,20 @@ def getRealIPAddress():
     return ipAddress
 
 def checkClusters(clusters,  targetSet):
-    targetEngines =[]
+    targetClusters =[]
     if 'all' in clusters:
         for engine in gConfig.Engines:
-            targetEngines.append(str(engine))
+            targetClusters.append(str(engine))
     else:
-        for engine in clusters:
-            engine = engine.strip()
-            if engine in gConfig.Engines:
-                targetEngines.append(engine)
+        for cluster in clusters:
+            cluster = cluster.strip()
+            if cluster in gConfig.Clusters:
+                targetClusters.append(cluster)
             else:
-                logger.error("%s. Unknown engine:'%s' in %s:'%s'!" % (1,  engine,  targetSet,  clusters))
+                logger.error("%s. Unknown cluster:'%s' in %s:'%s'!" % (1,  cluster,  targetSet,  clusters))
                 raise Error("4000")
 
-    return  targetEngines
+    return  targetClusters
 
 def isLocalIP(ip):
     retVal=False

@@ -133,7 +133,7 @@ class ECLFile:
 
         # Process setupExtraX parameters if any
         if 'setupExtraX' in args:
-            args.setupExtraX.append('destClusterName=' + self.config.ClusterNames[args.engine])
+            args.setupExtraX.append('destClusterName=' + args.cluster) #self.config.ClusterNames[args.engine])
             for extraX in args.setupExtraX:
                 extraX=self.removeQuote(extraX)
                 optXs = ("-X"+extraX.replace(',',  ',-X')).split(',')

@@ -94,9 +94,10 @@ class RegressMain:
         eclfiles = self.processEclList(self.args.query)
 
         # Go through the cluster list
-        for engine in self.targetEngines:
+        for cluster in self.targetEngines:
+            engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
-            cluster = self.regress.config.Clusters[engine]
+            #cluster = self.regress.config.Clusters[engine]
             self.args.cluster = cluster
             try:
                 if len(eclfiles) :
@@ -122,9 +123,10 @@ class RegressMain:
             # List for setup ECL filenames to be executed
             self.args.setup = self.processEclList(self.args.setup,  True)
         # Go through the cluster list
-        for engine in self.targetEngines:
+        for cluster in self.targetEngines:
+            engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
-            cluster = self.regress.config.Clusters[engine]
+            #cluster = self.regress.config.Clusters[engine]
             self.args.cluster = cluster
             if  self.args.pq in (0, 1):
                 self.regress.runSuite(engine, cluster, self.regress.Setup(self.args))
@@ -133,9 +135,10 @@ class RegressMain:
 
     def run(self):
         # Go through the cluster list
-        for engine in self.targetEngines:
+        for cluster in self.targetEngines:
+            engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
-            cluster = self.regress.config.Clusters[engine]
+            #cluster = self.regress.config.Clusters[engine]
             self.args.cluster = cluster
             self.regress.bootstrap(engine, cluster, self.args)
             self.args.target = cluster
@@ -408,7 +411,7 @@ class RegressMain:
                     # target is a list, process it
                     targets = self.args.target.split(',')
                     self.targetEngines = checkClusters(targets, 'target')
-                elif self.args.target in self.config.Engines:
+                elif self.args.target in self.config.Clusters:
                     self.targetEngines.append(self.args.target)
                 else:
                     logging.error("%s. Unknown target cluster:'%s'!" % (1,  self.args.target))

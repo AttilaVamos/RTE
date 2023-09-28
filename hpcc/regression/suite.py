@@ -31,9 +31,10 @@ from ..util.util import getConfig
 class Suite:
     def __init__(self, engine,  clusterName, dir_ec, dir_a, dir_ex, dir_r, logDir, dir_inc, args, isSetup=False,  fileList = None):
         self.clusterName = clusterName
-        self.targetName = engine
+        self.targetName = clusterName # engine
+        self.engine = engine
         if isSetup:
-            self.targetName = 'setup_'+engine
+            self.targetName = 'setup_'+clusterName # engine
 
         self.args=args
         self.suite = []
@@ -99,7 +100,7 @@ class Suite:
                         exclude=False
                         exclusionReason=''
                         if isSetup:
-                            exclude = eclfile.testExclusion('setup') or eclfile.testExclusion(self.clusterName)
+                            exclude = eclfile.testExclusion('setup') or eclfile.testExclusion(self.engine)
                             exclusionReason=' setup'
                         elif ( 'all' not in  classIncluded ) or ('none' not in classExcluded):
                             included = True
@@ -111,7 +112,7 @@ class Suite:
                             exclude = (not included )  or excluded
                             exclusionReason=' class member excluded'
                         if not exclude:
-                            exclude = eclfile.testExclusion(self.targetName)
+                            exclude = eclfile.testExclusion(self.engine)
                             exclusionReason=' ECL excluded'
 
                         if not exclude:
@@ -142,7 +143,7 @@ class Suite:
                 for instance in range(self.args.runcount):
                     try:
                         newEcl = copy.copy(ecl)
-                    except:
+                    except Exception as e:
                         logging.debug( e, extra={'taskId':-1})
                         logging.debug("%s",  traceback.format_exc().replace("\n","\n\t\t"),  extra={'taskId':-1} )
                         pass
@@ -168,14 +169,14 @@ class Suite:
             versions = eclfile.getVersions()
             versionId = 1
             for version in versions:
-                if 'no'+self.targetName in version:
+                if 'no'+self.engine in version:
                     # Exclude it from this target
                     pass
                 else:
                     # Remove exclusion key(s) from version string
                     config = getConfig();
-                    for cluster in config.Clusters:
-                        version = version.replace(',no'+str(cluster), '')
+                    for engine in config.Engines:
+                        version = version.replace(',no'+str(engine), '')
 
                     files.append({'basename':basename, 'version':version,  'id':versionId })
                     versionId += 1
