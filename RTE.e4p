@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project RTE -->
-<!-- Saved: 2023-09-28, 20:03:47 -->
+<!-- Saved: 2023-10-02, 11:33:34 -->
 <!-- Copyright (C) 2023 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -40,6 +40,7 @@
   </Sources>
   <Others>
     <Other>.gitignore</Other>
+    <Other>ecl-test-k8s.json</Other>
     <Other>ecl-test.json</Other>
   </Others>
   <MainScript>ecl-test</MainScript>
