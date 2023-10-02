@@ -226,12 +226,12 @@ class Regression:
     def displayReport(report,  elapsTime=0):
         report[0].display(report[1],  elapsTime)
 
-    def runSuiteP(self, name, cluster, suite):
-        engine = name
-
-        logName = name
+    def runSuiteP(self, engine, cluster, suite):
+        name = engine
+        logName = cluster 
+        
         if 'setup' in suite.getSuiteName():
-            logName ='setup_'+name
+            logName ='setup_'+ cluster
             name = name + ' (setup)'
 
         report = self.buildLogging(logName)
@@ -240,8 +240,9 @@ class Regression:
         self.taskParam = [{'taskId':0,  'jobName':'',  'timeoutValue':0,  'retryCount': 0} for i in range(self.maxthreads)]
         self.goodStates = ('compiling', 'blocked')
 
-        logger.debug("runSuiteP(name:'%s', suite:'%s')" %  (name,  suite.getSuiteName()))
-        logger.warn("Suite: %s ",  name)
+        logger.debug("runSuiteP(name: '%s', suite: '%s', cluster: '%s')" %  (name,  suite.getSuiteName(), cluster))
+        logger.warn("Suite: %s " %  name)
+        logger.warn("Cluster: %s" % cluster)
         logger.warn("Queries: %s" % repr(len(suite.getSuite())))
         logger.warn('%s','' , extra={'filebuffer':True,  'filesort':True})
         cnt = 0
@@ -313,7 +314,7 @@ class Regression:
                                         self.loggermutex.acquire()
                                         query = self.suiteItems[self.taskParam[threadId]['taskId']]
                                         query.setAborReason('Timeout and retry count exhausted!')
-                                        logger.info("%3d. Timeout occured and no more attempt left. Force to abort... " % (self.taskParam[threadId]['taskId']),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
+                                        logger.error("%3d. Timeout occured and no more attempt left. Force to abort... " % (self.taskParam[threadId]['taskId']),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
                                         logger.debug("%3d. Task parameters: thread id:%d, wuid:'%s', state:'%s', ecl:'%s'." % (self.taskParam[threadId]['taskId']+1, threadId, wuid['wuid'], wuid['state'],  query.ecl),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
                                         self.loggermutex.release()
                                     else:
@@ -321,7 +322,7 @@ class Regression:
                                         self.loggermutex.acquire()
                                         query = self.suiteItems[self.taskParam[threadId]['taskId']]
                                         query.setAborReason('Timeout (has not started yet and retry count exhausted)')
-                                        logger.info("%3d. Timeout occured and no more attempt left. Force to abort... " % (self.taskParam[threadId]['taskId']),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
+                                        logger.error("%3d. Timeout occured and no more attempt left. Force to abort... " % (self.taskParam[threadId]['taskId']),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
                                         logger.debug("%3d. Task parameters: thread id:%d, wuid:'%s', state:'%s', ecl:'%s'." % (self.taskParam[threadId]['taskId']+1, threadId, wuid['wuid'], wuid['state'],  query.ecl),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
                                         self.loggermutex.release()
 
@@ -341,7 +342,7 @@ class Regression:
                                 self.loggermutex.acquire()
                                 query = self.suiteItems[self.taskParam[threadId]['taskId']]
                                 query.setAborReason('Timeout')
-                                logger.info("%3d. Timeout occured. Force to abort... " % (self.taskParam[threadId]['taskId']+1),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
+                                logger.error("%3d. Timeout occured. Force to abort... " % (self.taskParam[threadId]['taskId']+1),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
                                 logger.debug("%3d. Task parameters: thread id:%d, wuid:'%s', state:'%s', ecl:'%s'." % (self.taskParam[threadId]['taskId']+1, threadId, wuid['wuid'], wuid['state'],  query.ecl),  extra={'taskId':self.taskParam[threadId]['taskId']+1})
                                 self.loggermutex.release()
                                 self.timeouts[threadId] = -1
@@ -433,21 +434,22 @@ class Regression:
         self.timeoutThread.cancel()
         time.sleep(2)
 
-    def runSuite(self, engine, name, suite):
-        if name == "setup":
-            cluster = 'hthor'
-        else:
-            cluster = name
-
-        logName = name
+    def runSuite(self, engine, cluster, suite):
+        name = engine
+        logName = cluster 
+#        if name == "setup":
+#            cluster = 'hthor'
+#        else:
+#            cluster = name
         if 'setup' in suite.getSuiteName():
-            logName ='setup_'+name
+            logName ='setup_'+ cluster
             name = name + ' (setup)'
 
         report = self.buildLogging(logName)
 
-        logger.debug("runSuite(name:'%s', suite:'%s')" %  (name,  suite.getSuiteName()))
+        logger.debug("runSuiteP(name: '%s', suite: '%s', cluster: '%s')" %  (name,  suite.getSuiteName(), cluster))
         logger.warning("Suite: %s" % name)
+        logger.warning("Cluster: %s" % cluster)
         logger.warning("Queries: %s" % repr(len(suite.getSuite())))
         suite.setStarTime(time.time())
         cnt = 1

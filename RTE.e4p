@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project RTE -->
-<!-- Saved: 2023-10-02, 11:33:34 -->
+<!-- Saved: 2023-10-02, 13:14:58 -->
 <!-- Copyright (C) 2023 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -15,6 +15,7 @@
   <Sources>
     <Source>ecl-test</Source>
     <Source>ecl-test-azure.json</Source>
+    <Source>ecl-test-k8s.json</Source>
     <Source>ecl-test-minikube.json</Source>
     <Source>ecl-test.json</Source>
     <Source>hpcc/__init__.py</Source>
