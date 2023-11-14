@@ -39,7 +39,6 @@
         "wuAbortTimeout":"720",
         "usePoll":"True",
         "defaultSetupTargets": [
-            "hthor",
             "thor",
             "roxie-workunit"
         ],
