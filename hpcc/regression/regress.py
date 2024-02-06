@@ -657,13 +657,15 @@ class Regression:
                     logger.error("%3d. Zipped Analysis Package: %s" %  (cnt, zapRes),  extra={'taskId':cnt})
             self.loggermutex.release()
             query.setElapsTime(elapsTime)
-            self.exitmutexes[th].release()
+            if self.exitmutexes[th].locked():
+                self.exitmutexes[th].release()
         except Exception as e:
             printException(repr(e) + " runQuery()")
             logger.error("Unexpected error:'%s' (line: %s ) :%s " %( sys.exc_info()[0], str(inspect.stack()[0][2]),  repr(e) ) ,  extra={'taskId':cnt})
             elapsTime = time.time()-startTime
             query.setElapsTime(elapsTime)
-            self.exitmutexes[th].release()
+            if self.exitmutexes[th].locked():
+                self.exitmutexes[th].release()
 
     def getConfig(self):
         return self.config
