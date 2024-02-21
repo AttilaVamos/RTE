@@ -134,7 +134,7 @@ class ECLcmd(Shell):
                 if "aborted" in i:
                     state = "aborted"
                 if cnt > 4:
-                    xml =  ET.fromstring("<Empty>-*-* No content *-*-</Empty>")
+                    xml =  ET.fromstring("<VeryEmpty>-*-* No content *-*-</VeryEmpty>")
                     if (i.startswith('<Warning>') or i.startswith('<Exception>')) and ('Filename' in i ):
                         # Remove absolute path from filename to 
                         # enable to compare it with same part of keyfile
@@ -146,10 +146,12 @@ class ECLcmd(Shell):
                             xml.find('.//Filename').text = filename
                         except Exception as e: 
                             logger.debug("%3d. Unexpected error: %s - %s (line: %s) ", eclfile.getTaskId(), str(sys.exc_info()[0]), str(e), str(inspect.stack()[0][2]))
-                            printException(repr(e) + " runCmd()",  debug=False)
+                            printException(repr(e) + " runCmd(i:'%s')" % (i),  debug=True)
                             
                         finally:
-                            i = ET.tostring(xml, short_empty_elements=False).decode("utf-8")
+                            # Change the original line only if the "Filename" manipulation was success
+                            if "VeryEmpty" not in str(xml):
+                                i = ET.tostring(xml, short_empty_elements=False).decode("utf-8")
                         logger.debug("%3d. ret:'%s'", eclfile.getTaskId(),  i )
                         pass
                     try:
