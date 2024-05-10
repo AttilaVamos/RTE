@@ -181,12 +181,16 @@ class ECLcmd(Shell):
             logger.critical(traceback.format_exc())
             raise err
         finally:
-            res = queryWuid(eclfile.getJobname(), eclfile.getTaskId())
+            jobName = eclfile.getJobname()
+            if cmd == 'publish':
+                jobName = eclfile.getBaseEclName()
+                
+            res = queryWuid(jobName, eclfile.getTaskId())
             if not res['wuid'].strip().startswith('W'):
                 tryCount = 5
                 while  tryCount > 0:
                     tryCount -= 1
-                    res = queryWuid(eclfile.getJobname(), eclfile.getTaskId())
+                    res = queryWuid(jobName, eclfile.getTaskId())
                     if res['wuid'].strip().startswith('W'):
                         break
                     logger.debug("%3d. in finally -> 'wuid':'%s', 'state':'%s', attempt: %d, ", eclfile.getTaskId(), res['wuid'], res['state'],  tryCount)
@@ -200,7 +204,7 @@ class ECLcmd(Shell):
                     pass
                 elif res['result'] != "OK":
                     eclfile.diff=eclfile.getBaseEcl()+'\n\t'+res['state']+'\n'
-                    logger.error("%3d. %s in queryWuid(%s)",  eclfile.getTaskId(),  res['state'],  eclfile.getJobname())
+                    logger.error("%3d. %s in queryWuid(%s)",  eclfile.getTaskId(),  res['state'],  jobName)
 
             try:
                 eclfile.addResults(data, wuid)

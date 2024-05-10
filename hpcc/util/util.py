@@ -129,6 +129,7 @@ def queryWuid(jobname,  taskId):
     args.append('-n=' + jobname)
     args.append('--wait-read='+ gConfig.wuStatusTimeout )  # Timeout while reading from socket (in seconds)
     args.append('--wait-connect=%d' % (int(gConfig.wuStatusTimeout) * 1000) )  # Timeout while reading from socket (in milliseconds)
+    args.append('--limit=1')  # for published queries it can return with multiple results, but wee ned only one, the latest
     addCommonEclArgs(args)
 
     res, stderr = shell.command(cmd, *defaults)(*args)
