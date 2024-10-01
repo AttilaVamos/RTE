@@ -119,9 +119,9 @@ class ECLFile:
                 [testSpec,  val] = param.split(':')
 
                 if '*' in testSpec:
-                    testSpec = testSpec.replace('*',  '\w+')
+                    testSpec = testSpec.replace('*',  r'\w+')
 
-                testSpec = testSpec.replace('.',  '\.')
+                testSpec = testSpec.replace('.',  r'\.')
                 match = re.match(testSpec,  self.baseEcl)
                 if match:
                     optXs = ("-X"+val.replace(',',  ',-X')).split(',')
@@ -368,7 +368,7 @@ class ECLFile:
         eclText = open(self.getEcl(), 'rb')
         for line in eclText:
             _line = str(line)
-            if re.search(tag+'[^\w]', _line, re.IGNORECASE):
+            if re.search(tag+r'[^\w]', _line, re.IGNORECASE):
                 retVal = True
                 break
         logger.debug("%3d.__checkTag() returns with %s", self.taskId,  retVal)
