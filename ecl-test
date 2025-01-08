@@ -97,7 +97,6 @@ class RegressMain:
         for cluster in self.targetEngines:
             engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
-            #cluster = self.regress.config.Clusters[engine]
             self.args.cluster = cluster
             try:
                 if len(eclfiles) :
@@ -126,7 +125,6 @@ class RegressMain:
         for cluster in self.targetEngines:
             engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
-            #cluster = self.regress.config.Clusters[engine]
             self.args.cluster = cluster
             if  self.args.pq in (0, 1):
                 self.regress.runSuite(engine, cluster, self.regress.Setup(self.args))
@@ -138,7 +136,6 @@ class RegressMain:
         for cluster in self.targetEngines:
             engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
-            #cluster = self.regress.config.Clusters[engine]
             self.args.cluster = cluster
             self.regress.bootstrap(engine, cluster, self.args)
             self.args.target = cluster

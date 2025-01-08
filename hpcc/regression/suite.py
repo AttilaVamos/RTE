@@ -31,10 +31,10 @@ from ..util.util import getConfig
 class Suite:
     def __init__(self, engine,  clusterName, dir_ec, dir_a, dir_ex, dir_r, logDir, dir_inc, args, isSetup=False,  fileList = None):
         self.clusterName = clusterName
-        self.targetName = clusterName # engine
+        self.targetName = clusterName
         self.engine = engine
         if isSetup:
-            self.targetName = 'setup_'+clusterName # engine
+            self.targetName = 'setup_'+clusterName
 
         self.args=args
         self.suite = []

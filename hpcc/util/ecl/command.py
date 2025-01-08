@@ -45,7 +45,7 @@ class ECLcmd(Shell):
         args.append(cmd)
         args.append('-v')
         args.append('-fpickBestEngine=false')
-        args.append('--target=' + cluster) #  engine)
+        args.append('--target=' + cluster)
         args.append('--cluster=' + cluster)
         args.append('--port=' + self.config.espSocket)
         if self.config.useSsl.lower() == 'true':
@@ -168,7 +168,6 @@ class ECLcmd(Shell):
                 logger.debug("%3d. error:'%s'", eclfile.getTaskId(), stderr )
                 data += '\n'.join(line for line in stderr.split('\n') if line and (' Warning ' not in line) and (' Info ' not in line) and ('0 error(s)' not in line)  ) 
                 
-#            if len(data) > 0:
             data += '\n'
 
         except Error as err:
