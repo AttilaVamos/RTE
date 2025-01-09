@@ -126,6 +126,7 @@ class RegressMain:
             engine = self.regress.config.Clusters[cluster]
             self.args.engine = engine
             self.args.cluster = cluster
+            self.args.publishCluster=self.regress.config.PublishClusters[engine]
             if  self.args.pq in (0, 1):
                 self.regress.runSuite(engine, cluster, self.regress.Setup(self.args))
             else:

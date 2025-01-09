@@ -296,6 +296,12 @@ class ECLFile:
     def setWuid(self,  wuid):
         self.wuid = wuid.strip()
 
+    def getCluster(self):
+        return self.cluster
+
+    def setCluster(self,  target):
+        self.cluster = target
+
     def addResults(self, results, wuid):
         logger.debug("%3d. addResults (results:'%s', wuid:'%s')", self.taskId, results,  wuid)
         filename = self.getResults()

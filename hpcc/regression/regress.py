@@ -574,6 +574,8 @@ class Regression:
                     eclCmd = ECLcmd()
                     try:
                         if publish:
+                            cluster=query.getCluster()
+                            logger.debug("Cluster to publish:'%s'"  % (cluster),  extra={'taskId':cnt})
                             res = eclCmd.runCmd("publish", engine, cluster, query, report[0],
                                               server=self.config.espIp,
                                               username=self.config.username,

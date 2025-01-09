@@ -128,6 +128,7 @@ class Suite:
                         self.exclude.append(format(file, "30")+" skipped (reason:"+skipResult['reason']+")");
 
                     if eclfile.testPublish():
+                        eclfile.setCluster(args.publishCluster)
                         self.publish.append(eclfile.getBaseEcl())
                 except Error as e:
                     exceptions += str(e)

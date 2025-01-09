@@ -28,6 +28,11 @@
             "thor"  : "thor",
             "roxie" : "roxie"
         },
+        "PublishClusters": {
+            "hthor" : "hthor",
+            "thor"  : "thor",
+            "roxie" : "roxie"
+        },
         "ClusterNames": {
             "hthor" : "myhthor",
             "thor"  : "mythor",
