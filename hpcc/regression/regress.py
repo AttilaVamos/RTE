@@ -282,7 +282,7 @@ class Regression:
                             self.taskParam[startThreadId]['jobName'] = query.getJobname()
                             self.taskParam[startThreadId]['retryCount'] = int(self.config.maxAttemptCount)
                             self.exitmutexes[startThreadId].acquire()
-                            _thread.start_new_thread(self.runQuery, (engine, cluster, query, report, cnt, suite.testPublish(query.ecl),  startThreadId))
+                            _thread.start_new_thread(self.runQuery, (engine, cluster, query, report, cnt, query.testPublish(),  startThreadId))
                             started = True
                             break
 
@@ -471,7 +471,7 @@ class Regression:
                 self.retryCount = int(self.config.maxAttemptCount)
                 query.setTimeout(self.timeouts[th])
                 self.exitmutexes[th].acquire()
-                _thread.start_new_thread(self.runQuery, (engine, cluster, query, report, cnt, suite.testPublish(query.ecl), th))
+                _thread.start_new_thread(self.runQuery, (engine, cluster, query, report, cnt, query.testPublish(), th))
                 time.sleep(0.1)
                 self.CheckTimeout(cnt, th,  query)
                 cnt += 1

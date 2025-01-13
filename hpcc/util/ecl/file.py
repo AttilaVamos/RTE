@@ -297,10 +297,12 @@ class ECLFile:
         self.wuid = wuid.strip()
 
     def getCluster(self):
+        logger.debug("%3d. getCluster(): return with '%s'", self.taskId, self.cluster)
         return self.cluster
 
     def setCluster(self,  target):
         self.cluster = target
+        logger.debug("%3d.setCluster(target: '%s')", self.taskId, self.cluster)
 
     def addResults(self, results, wuid):
         logger.debug("%3d. addResults (results:'%s', wuid:'%s')", self.taskId, results,  wuid)
@@ -727,3 +729,11 @@ class ECLFile:
 
     def appendJobNameSuffix(self,  string):
         self.jobNameSuffix += '_' + string.replace('-',  '_');
+
+    def testLibrary(self):
+        # Standard string has a problem with unicode characters
+        # use byte arrays and binary file open instead
+        tag = b'//library'
+        retVal = self.__checkTag(tag)
+        logger.debug("%3d. testLibrary() returns with: %s",  self.taskId,  retVal)
+        return retVal
