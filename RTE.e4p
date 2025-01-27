@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project RTE -->
-<!-- Saved: 2023-10-02, 13:14:58 -->
-<!-- Copyright (C) 2023 ,  -->
+<!-- Saved: 2025-01-27, 15:53:37 -->
+<!-- Copyright (C) 2025 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
   <Hash>3fa1b85c2068b63e90391cd1548b2dac655c6c91</Hash>
@@ -13,6 +13,8 @@
   <Email></Email>
   <Eol index="0"/>
   <Sources>
+    <Source>README.rst</Source>
+    <Source>RegressionTesting.rst</Source>
     <Source>ecl-test</Source>
     <Source>ecl-test-azure.json</Source>
     <Source>ecl-test-k8s.json</Source>
@@ -41,6 +43,8 @@
   </Sources>
   <Others>
     <Other>.gitignore</Other>
+    <Other>README.rst</Other>
+    <Other>RegressionTesting.rst</Other>
     <Other>ecl-test-k8s.json</Other>
     <Other>ecl-test.json</Other>
   </Others>
