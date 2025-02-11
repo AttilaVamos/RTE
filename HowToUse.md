@@ -323,7 +323,55 @@ The Remote Mode means: The source tree cloned into the local environment, HPCC-P
 ### In Containerized Environment
 
 #### AKS
+It is containerized local environment, so ECL Watch running on different IP but same port as default, but we have 2 Roxies, therefore we need to use containerized config, like ecl-test-azure.json.
+
+The preliminaries are:
+##### On the local machine:
+- Installed HPCC Systems platform or HPCC Platfrom Client tools
+- Cloned source tree for the RTE and Regression Suite
+
+##### In AKS
+- Deployed HPCC-Platform into Minikube (with helm chart)
+- Annotated ECl-Watch, its public IP address
+    - For annotate: kubectl annotate service eclwatch --overwrite service.beta.kubernetes.io/azure-load-balancer-internal="false"
+    - To get ECL Watch IP: kubectl get svc | egrep 'eclwatch' | awk '{ print $4 }'
+
+In this environment the command is:
+```
+      ./ecl-test <setup|run|query> --server <ECL_WATCH_IP_IN_AKS>  --config ecl-test-azure.json [ecl_queries]
+```
+
 
 #### DockerDesktop
+It is containerized local environment, so ECL Watch running on localhost:8010 (default), but we have 2 Roxies, therefore we need to use containerized config, like ecl-test-azure.json .
+
+The preliminaries are:
+
+##### On the local machine:
+- Installed HPCC Systems platform or HPCC Platfrom Client tools
+- Cloned source tree for the RTE and Regression Suite
+
+##### In Docker Desktop
+- Deployed HPCC-Platform
+
+In this environment the command is:
+```
+      ./ecl-test <setup|run|query> --config ecl-test-azure.json [ecl_queries]
+```
 
 #### Minikube
+The preliminaries are:
+##### On the local machine:
+- Installed HPCC Systems platform or HPCC Platfrom Client tools
+- Cloned source tree for the RTE and Regression Suite
+
+##### In Minikube
+- Deployed HPCC-Platform into Minikube (with helm chart)
+- Annotated ECl-Watch, its public IP address and Port number
+
+In this environment the command is:
+```
+      ./ecl-test <setup|run|query> --server <ECL_WATCH_IP_IN_MINIKUBE>:<ECL_WATCH_PORT_IN_MINIKUBE>  --config ecl-test-azure.json [ecl_queries]
+```
+
+        
